@@ -168,31 +168,24 @@ interface NumeroPacientesPorEspecialidad {
 const cuentaPacientesPorEspecialidad = (
   pacientes: Pacientes[]
 ): NumeroPacientesPorEspecialidad => {
-  let pacientesPorEspecialidad: NumeroPacientesPorEspecialidad = {
-    medicoDeFamilia: 0,
-    pediatria: 0,
-    cardiologia: 0,
+  const numeroPacientesPorEspecialidad = (
+    listaPacientes: Pacientes[],
+    tipoEspecialidad: string
+  ): number => {
+    const pacientesFiltrados = listaPacientes.filter(
+      (paciente: Pacientes) => paciente.especialidad === tipoEspecialidad
+    );
+
+    return pacientesFiltrados.length;
   };
 
-  let pacientesMedicoFamilia: Pacientes[] = [];
-  pacientesMedicoFamilia = pacientes.filter(
-    (paciente: Pacientes) => paciente.especialidad === "Medico de familia"
-  );
-
-  let pacientesPediatra: Pacientes[] = [];
-  pacientesPediatra = pacientes.filter(
-    (paciente: Pacientes) => paciente.especialidad === "Pediatra"
-  );
-
-  let pacientesCardiologo: Pacientes[] = [];
-  pacientesCardiologo = pacientes.filter(
-    (paciente: Pacientes) => paciente.especialidad === "Cardiólogo"
-  );
-
-  pacientesPorEspecialidad = {
-    medicoDeFamilia: pacientesMedicoFamilia.length,
-    pediatria: pacientesPediatra.length,
-    cardiologia: pacientesCardiologo.length,
+  let pacientesPorEspecialidad: NumeroPacientesPorEspecialidad = {
+    medicoDeFamilia: numeroPacientesPorEspecialidad(
+      pacientes,
+      "Medico de familia"
+    ),
+    pediatria: numeroPacientesPorEspecialidad(pacientes, "Pediatra"),
+    cardiologia: numeroPacientesPorEspecialidad(pacientes, "Cardiólogo"),
   };
 
   return pacientesPorEspecialidad;
